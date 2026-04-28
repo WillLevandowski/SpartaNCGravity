@@ -1,0 +1,48 @@
+%Sparta 29 September 2023
+
+1297 8682 92.225 %hotel 91.960 06:52
+2384 8720 102.565 %e end MP 07:04...hotel + 10.344
+2228 8782 100.461 %e edge intx
+2099 8947 97.896 %btw n houses 2&3. Climbed 0.048 while settling
+2008 9135 97.773 %aligned e wall 1888
+1941 9257 96.530 %1801 off e driveway
+1853 9446 95.775 %NE intx in gravel 
+1706 9760 101.025 %center dead end 
+1519 9742 95.590 %river walk e gravel. Climbed 0.054 while settling.
+0609 9782 96.700 % n side just e trees 
+0282 9627 94.625 %SW intx
+0226 9449 95.850 %align across s wall 
+
+%%%%base
+1297 8682 92.255 %hotel 91.990 08:15
+%%%%
+
+0523 8705 97.215 %1246 5m from Hwy
+0612 8708 94.094   %under pine along line of pines west side of bend in deer haven 
+0695 8654 92.948 %end of pines at road 
+0807 8476 91.820 %bend. NE. Just n tree
+0981 8264 92.520  %E parking line s tip
+
+%%%%base 
+1297 8682 92.265
+%%%% suggests base = hotel + 0.275
+
+1266 8615 91.166 %crest, intx 
+1290 8594 91.510 %next intx 
+1312 8573 91.800 %next intx
+1336 8550 91.615 %one-sided intx 
+1358 8531 90.919 %reoccupy yesterday 
+1297 8682 92.263 
+
+%from yesterday 1355 8529 90.944 %center arrow-shaped intx 
+%1297 8682 92.290 %hotel 82.015
+%%% 1355 down 0.025 from yesterday; predicts 1297 92.265
+
+1180 8556 93.184 %just n of across from tree
+1082 8147 91.840  %s side entry, grass 
+1181 7981 91.275 %n side grass near concrete 
+1294 7797 89.517 %mailbox at SW tip of grass
+1849 7555 92.730 %SW corner 5mSE apex of bend in driveway. Just on gravelly grass
+2814 7077 101.560 %downhill from stop sign in gravel on east side 
+
+1297 8682 92.263 %09:59 not measured

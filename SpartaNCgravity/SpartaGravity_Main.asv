@@ -1,0 +1,1080 @@
+clear all 
+close all
+BougDens=2590;xbg=490000;ybg=4030000;
+
+%%%% load the elevation interpolant
+ tic; load ElevInterp4.mat;toc
+
+ %%%% read data and reformat shorthand UTM coordinates from fieldwork
+ dat=load('SpartaDay0real.txt');
+ foo=find(dat(:,1)>7000);dat(foo,1)=dat(foo,1)-10000;
+ foo=find(dat(:,2)<3500);dat(foo,2)=dat(foo,2)+10000;
+ 
+ dat_=load('SpartaDay1.txt');
+ foo=find(dat_(:,1)>7000);dat_(foo,1)=dat_(foo,1)-10000;
+ foo=find(dat_(:,2)<3500);dat_(foo,2)=dat_(foo,2)+10000;
+ dat=[dat;dat_];
+ 
+ dat_=load('SpartaDay2.txt');
+ foo=find(dat_(:,1)>7000);dat_(foo,1)=dat_(foo,1)-10000;
+ foo=find(dat_(:,2)<3500);dat_(foo,2)=dat_(foo,2)+10000;
+ dat=[dat;dat_];
+ 
+ dat_=load('SpartaDay3.txt');
+ foo=find(dat_(:,1)>7000);dat_(foo,1)=dat_(foo,1)-10000;
+ foo=find(dat_(:,2)<3500);dat_(foo,2)=dat_(foo,2)+10000;
+ dat=[dat;dat_];
+ 
+ dat_=load('SpartaDay4.txt');
+ foo=find(dat_(:,1)>7000);dat_(foo,1)=dat_(foo,1)-10000;
+ foo=find(dat_(:,2)<3500);dat_(foo,2)=dat_(foo,2)+10000;
+ dat=[dat;dat_];
+ 
+ dat_=load('SpartaDay5.txt');
+ foo=find(dat_(:,1)>7000);dat_(foo,1)=dat_(foo,1)-10000;
+ foo=find(dat_(:,2)<3500);dat_(foo,2)=dat_(foo,2)+10000;
+ dat=[dat;dat_];
+ 
+ dat_=load('SpartaDay6.txt');
+ foo=find(dat_(:,1)>5000);dat_(foo,1)=dat_(foo,1)-10000;
+ foo=find(dat_(:,2)<3500);dat_(foo,2)=dat_(foo,2)+10000;
+ dat=[dat;dat_];
+ 
+ dat_=load('SpartaDay7.txt');
+ foo=find(dat_(:,1)>5000);dat_(foo,1)=dat_(foo,1)-10000;
+ foo=find(dat_(:,2)<3500);dat_(foo,2)=dat_(foo,2)+10000;
+ dat=[dat;dat_];
+ % okay=find(dat(:,1)>-3400);dat=dat(okay,:);
+
+  x=dat(:,1);y=dat(:,2);g=dat(:,3);
+  %%%%%% drift correction
+g=driftModel(x,y,g,1297,8682);
+ 
+%   plot(x,y,'ko')
+
+ %%%%%% convert UTM to Lon,Lat
+
+  Lon=0*x;Lat=0*y;
+for i=1:numel(x)
+    [a,b]=utm2deg(x(i)+xbg,y(i)+ybg,'17 S');
+    Lon(i)=b;Lat(i)=a;
+end
+dlmwrite('GravityLocations2025.txt',[Lon Lat  ],'delimiter','\t','precision',8)
+
+%%%%%% assign elevations to the gravity stations
+E=ElevInterp(x+xbg,y+ybg);
+
+%%%% Latitude correction
+gn=978031.85*(1+0.005278895*sind(Lat).^2+0.000023462*sind(Lat).^4);LatCorr=gn-mean(gn);g=g-LatCorr;g=g-mean(g);
+%%%% Free Air correction
+FACorr=0.3086*E;FACorr=FACorr-min(FACorr);gFA=g+FACorr;gFA=gFA-mean(gFA);
+%%%% Terrain correction
+R=[  0:5:20 25:25:200 250:100:1050 1250:250:2000 3000:1000:10000];
+TCkern=TerrainCorrections2(1,R,x+xbg,y+ybg,E,ElevInterp);
+ toc
+TC=TCkern*BougDens;
+CFA=gFA+TC;CFA=CFA-mean(CFA);
+%%%% First-pass Bouguer correction
+BougCorr=-0.04193*BougDens/1000.*(E-min(E));CBA=CFA+BougCorr;CBA=CBA-mean(CBA);
+
+%%%%%% Simultaneous inversion for regional trend surface and Bouguer
+%%%%%% reduction density
+res=Inv1101(x,y,E,CBA,'verbose');
+% res=Inv1100(x,y,CBA); %%% or invert only for the regional trend surface
+
+%%%%%% check repeatability of repeated readings
+rep=x+NaN;nrep=x+NaN;
+for i=1:length(x)
+    match=find(x==x(i) & y==y(i));
+    if length(match)>1
+        rep(i)=res(i)-mean(res(match));
+        nrep(i)=length(match);
+    end
+end
+
+okay=find(~isnan(rep) & x~=1297);
+xyr=[x(okay) y(okay) rep(okay)];
+save xyrEg x y res E CBA
+x0=x;y0=y;res0=res;E0=E;CBA0=CBA;save xyEr0 x0 y0 E0 res0 CBA0
+
+%%%%% merge repeat readings 
+x0=x;y0=y;res0=res;
+xy=[x y];clear res
+xy=unique(xy, 'rows');
+x=xy(:,1);y=xy(:,2);res=0*x;E=0*x;CBA=0*x;FA=0*x;
+rep=0*x+NaN;
+nrep=0;rep_all=[];
+for i=1:length(x)
+    match=find(x0==x(i) & y0==y(i));
+    res(i)=median(res0(match));
+    CBA(i)=median(CBA0(match));
+    FA(i)=median(gFA(match));
+    E(i)=median(E0(match));
+    if length(match)>1 && x(i)~=1297
+        d=res0(match)-mean(res0(match));
+        rep(i)=mean(abs(d));
+        nrep=nrep+length(match);
+        rep_all=[rep_all;d];
+    end
+end
+
+%%%% add points around the periphery to steer interpolation
+addpoints=[2060 10660 1.5
+     3800 9350 1.1
+    1125 8760 -0.3
+    0958 8498 0.1
+    0970 8419 0.1
+    0800 8250 -0.1
+    1600 8616 0.7
+    1611 8720 0.85
+    1661 8656 0.85
+    1521 8656 0.7
+    1381 8700 0.7
+    ];
+x=[x;addpoints(:,1)];
+y=[y;addpoints(:,2)];
+CBA=[CBA;addpoints(:,3)];
+
+%%%% assign elevations; convert to Lon,Lat; re
+E=ElevInterp(x+xbg,y+ybg);
+ Lon=0*x;Lat=0*y;
+for i=1:numel(x)
+    [a,b]=utm2deg(x(i)+xbg,y(i)+ybg,'17 S');
+    Lon(i)=b;Lat(i)=a;
+end
+res=Inv1101(x,y,E,CBA,'verbose');
+% res=Inv1100(x,y,CBA);
+ % make_contour(x,y,res,10,500);plot(x,y,'ko')
+
+x0=x;y0=y;res0=res;E0=E;CBA0=CBA;save xyEr0 x0 y0 E0 res0 CBA0
+
+
+
+rupture=[
+ -81.11051025301117,36.49760044419381
+ -81.10857334068579,36.49668118799458
+ -81.10701009214218,36.49617467716713
+  -81.1069197745563,36.4961334968436 %%% start of frank scarp
+-81.10460471572951,36.49534397580601
+ -81.10375784565663,36.49513805227845
+ -81.10223512109368,36.49440182856058
+ -81.10165887554777,36.49416863215851
+ -81.09632613192191,36.49346442241623
+ -81.09503515891736,36.4926869877766
+ -81.09009016796071,36.49135865310393
+ -81.08679386736564,36.48993845593977
+ -81.08309681052788,36.48878249769825
+ -81.08050146923327,36.48684766586492%% end of frank scarp
+ -81.08050079805658,36.48685862392892
+ -81.07681554698972,36.48433760967445
+ -81.07558185166303,36.48395163738444
+ -81.07297823012863,36.48213353141163
+ -81.0707015545496,36.48038727232873
+ ];
+
+rup=[];
+for i=1:length(rupture)-1
+ foo=[linspace(rupture(i,1),rupture(i+1,1))' linspace(rupture(i,2),rupture(i+1,2))'];
+ rup=[rup;foo];
+end
+
+[rupx,rupy]=deg2utm(rup(:,2),rup(:,1));
+rupx=rupx-xbg;
+rupy=rupy-ybg;
+
+topoend=[-81.1306 36.5105];
+topolin=[linspace(topoend(1),rupture(1,1))'  linspace(topoend(2),rupture(1,2))'];
+
+topoend=[-81.0513 36.4665];
+topolin2=[linspace(topoend(1),rupture(end,1))'  linspace(topoend(2),rupture(end,2))'];
+
+
+
+
+%%
+close all
+tic
+step=10;
+[xx,yy]= gridxy(x,y,step);%(x(x>-1000 ),y(x>-1000 ),step);  
+
+yy=flipud(yy);%yy(:,2:2:end)=yy(:,2:2:end)+step/2;
+addpoints=[
+            -5000 9000 NaN
+            -5000 min(y) NaN
+            3000 min(y)-1000 NaN
+            min(x) min(y) NaN
+            max(x) min(y) NaN
+            min(x) max(y) NaN
+            max(x) 11000 NaN
+            max(x) 10000 NaN
+            -2000 20000 NaN
+            2000 20000 NaN
+            ];
+
+x0i=[x0;addpoints(:,1)];y0i=[y0;addpoints(:,2)];
+xi=[x;addpoints(:,1)];yi=[y;addpoints(:,2)];
+resi=[scatterGauss(x,y,res,5);addpoints(:,3)];
+Frn=scatteredInterpolant(xi,yi,resi,'natural','none');
+rrn=Frn(xx,yy);
+Fr=scatteredInterpolant(x,y,scatterGauss(x,y,res,5),'natural','nearest');
+rr=Fr(xx,yy);
+x0=x;y0=y;res0=res;E0=E;
+bougi=[scatterGauss(x,y,CBA,5);addpoints(:,3)];
+Fbn=scatteredInterpolant(xi,yi,bougi,'natural','none');
+bbn=Fbn(xx,yy);
+Fb=scatteredInterpolant(x,y,scatterGauss(x,y,CBA,5),'natural','linear');
+bb=Fb(xx,yy);
+Fb0=scatteredInterpolant(x,y,scatterGauss(x,y,CBA,5),'natural','none');
+bb0=Fb0(xx,yy);
+
+
+h=res-scatterGauss(x,y,res,500);
+hi=[scatterGauss(x,y,h,5);addpoints(:,3)];
+Fhn=scatteredInterpolant(xi,yi,hi,'natural','none');
+hhn=Fhn(xx,yy);
+Fh=scatteredInterpolant(x,y,scatterGauss(x,y,h,5),'natural','nearest');
+hh=Fh(xx,yy);
+
+hh2=hh-gridGauss(hh,500,step);
+hh2(isnan(rrn))=NaN;
+% contour_plot(xx,yy,hh2);colorbar;colormap((stoplight_stretch4));
+
+
+
+nearby=0*xx+NaN;
+for i=1:length(x)
+    d=sqrt( (x(i)-xx).^2+ (y(i)-yy).^2);
+    nearby(d<1000)=0;
+end
+rrn=rrn+nearby;
+bbn=bbn+nearby;
+
+% for i=1:length(x)
+%     d=sqrt( (x(i)-xx).^2+ (y(i)-yy).^2);
+%     nearby(d<500)=1;
+% end
+% rrn(nearby==1 & isnan(rrn))=rr(nearby==1 & isnan(rrn));
+% bbn(nearby==1 & isnan(bbn))=bb(nearby==1 & isnan(bbn));
+
+Lons=0*xx;Lats=0*yy;
+for i=1:numel(xx)
+    [a,b]=utm2deg(xx(i)+xbg,yy(i)+ybg,'17 S');
+    Lons(i)=b;Lats(i)=a;
+end
+% 
+% contour_plot(xx,yy,bbn);plotxy;clim([-2 2]);colormap(flipud(hotgraycold2))
+% contour_plot(xx,yy,rrn);plotxy;clim([-2 2]);colormap(flipud(hotgraycold2))
+toc
+% %% these outputs for GMT to make figure 6A and 7A
+% dlmwrite('CBA.txt',[mat2vec(Lons) mat2vec(Lats) mat2vec(bbn) ])
+% % dlmwrite('res.txt',[mat2vec(Lons) mat2vec(Lats) mat2vec(rrn) ])
+% 
+% %%
+% 
+% %%
+% ee=ElevInterp(xx+xbg,yy+ybg);
+% close all
+%  figure;s=surf(Lons,Lats,gridGauss(rr,20,step),rrn,'FaceLighting','phong','FaceColor','interp', 'AmbientStrength',0.5,'SpecularStrength',0.5,'EdgeColor','k','EdgeAlpha',0.0,'FaceAlpha',1);
+% colormap(flipud(hotgraycold2));view(0,90);hold on;
+% set(gcf,'Menu','none','Toolbar','none');%,'position',[12 38 683 879]);
+% set(gca,'units','normalize','position',[0 0 1 1],'color','none','TickLength',[0.0;0.0])
+% xlim([min(Lons(:)) max(Lons(:))]);ylim([min(Lats(:)) max(Lats(:))])
+% c=colorbar('Position',[0.1 0.2 0.02 0.15],'fontsize',12);
+% clim([-1.43 1.43])
+% 
+% 
+% 
+% %%
+% saveas(gcf,'res','jpg');
+% [img1 cmap]=imread('res.jpg');img=double(img1);
+% lon=[min(Lons(:)) max(Lons(:)); min(Lons(:)) max(Lons(:))];lat=[max(Lats(:)) max(Lats(:)); min(Lats(:)) min(Lats(:))];
+%  makekmz90(img,lat,lon,'imname','res');
+% % view(-64,40)
+% % saveas(gcf,'resnoshade_oblique','jpg');
+% % 
+% % % toc
+% p=camlight('infinite');
+% % 
+% % saveas(gcf,'resshade_oblique','jpg');
+% % % [img1 cmap]=imread('resshade.jpg');img=double(img1);
+% % % lon=[min(Lons(:)) max(Lons(:)); min(Lons(:)) max(Lons(:))];lat=[max(Lats(:)) max(Lats(:)); min(Lats(:)) min(Lats(:))];
+% % %  makekmz90(img,lat,lon,'imname','resshade');
+%  toc
+% %%
+% 
+% % p=camlight('infinite');
+% %  toc
+% %%
+% 
+% 
+% %%
+% 
+% o2re=[linspace(origin(1),rupture(end,1))' linspace(origin(2),rupture(end,2))'];
+% [o2rex,o2rey]=deg2utm(o2re(:,2),o2re(:,1));
+% o2rex=o2rex-xbg;o2rey=o2rey-ybg;
+% o2rez=Fb(o2rex,o2rey);
+% 
+% 
+% o2rw=[linspace(origin(1),rupture(1,1))' linspace(origin(2),rupture(1,2))'];
+% [o2rwx,o2rwy]=deg2utm(o2rw(:,2),o2rw(:,1));
+% o2rwx=o2rwx-xbg;o2rwy=o2rwy-ybg;
+% o2rwz=Fb(o2rwx,o2rwy);
+% 
+% % plot3(o2rw(:,1),o2rw(:,2),o2rwz+0.0,'k--','LineWidth',2)
+% % plot3(o2re(:,1),o2re(:,2),o2rez+0.0,'k--','LineWidth',2)
+% % plot3(o2rw(:,1),o2rw(:,2),o2rwz+0.02,'k--','LineWidth',2)
+% % plot3(o2re(:,1),o2re(:,2),o2rez+0.02,'k--','LineWidth',2)
+% xlim([-81.14 -81.07])
+% ylim([36.47 36.52])
+% 
+% 
+%  Lon=0*x;Lat=0*y;
+% for i=1:numel(x)
+%     [a,b]=utm2deg(x(i)+xbg,y(i)+ybg,'17 S');
+%     Lon(i)=b;Lat(i)=a;
+% end
+% 
+% gz=Fb(x,y);
+% % plot3(Lon,Lat,gz+0.01,'ks','MarkerSize',10)
+% % plot3(Lon,Lat,gz+0.02,'ks','MarkerSize',10)
+% % plot3(Lon,Lat,gz+0.03,'ks','MarkerSize',10)
+% % plot3(Lon,Lat,gz+0.04,'ks','MarkerSize',10)
+% % plot3(Lon,Lat,gz+0.05,'ks','MarkerSize',10)
+% 
+% %%
+%  % p=camlight('infinite');
+% saveas(gcf,'CBA','jpg');
+% [img1 cmap]=imread('CBA.jpg');img=double(img1);
+% lon=[min(Lons(:)) max(Lons(:)); min(Lons(:)) max(Lons(:))];lat=[max(Lats(:)) max(Lats(:)); min(Lats(:)) min(Lats(:))];
+%  makekmz90(img,lat,lon,'imname','CBAflat');
+%  toc
+% %%
+% % close all
+% F=scatteredInterpolant(x,y,scatterGauss(x,y,CBA,50),'natural','nearest');
+% rr=F(xx,yy);
+% % rr=F(xx-10,yy);
+% % rr=gridGauss(rr,50,step);
+% % rr0=rr;
+% % dx=gradient(rr0);
+% rr100=F(xx+10,yy);
+% % rr100=gridGauss(rr100,50,step);
+% 
+% dx=rr100-rr;
+% dx(isnan(rrn))=NaN;dx(xx>5000)=NaN;
+% % contour_plot(xx,yy,dx);
+% 
+% rr=F(xx,yy-10);
+% % rr=gridGauss(rr,50,step);
+% 
+% rr100=F(xx,yy+10);
+% % rr100=gridGauss(rr100,50,step);
+% 
+% dy=rr100-rr;
+% dy(isnan(rrn))=NaN;dy(xx>5000)=NaN;
+% % contour_plot(xx,yy,dy);
+% 
+% g=sqrt(dx.^2+dy.^2);
+% contour_plot(xx,yy,g);
+% caxis([0 quantile(g(~isnan(g)),0.98)])
+% plot(1069,7500,'k*')
+% rr=F(xx,yy);rr=gridGauss(rr,50,step);
+% rr(isnan(rrn))=NaN;rr(xx>5000)=NaN;
+% 
+% contour_plot(xx,yy,rr);
+% plot(1069,7500,'k*')
+% % F=scatteredInterpolant(x,y,scatterGauss(x,y,res,5),'natural','nearest');
+% % rr=F(xx,yy);rr(isnan(rrn))=NaN;rr(xx>5000)=NaN;
+% % 
+% % contour_plot(xx,yy,rr);
+% % plot(1069,7500,'k*')
+% % p=camlight('infinite');% hold on;plot(Lon,Lat,'k.')
+% %%
+% % close all
+% n=30;
+% F=scatteredInterpolant(x,y,scatterGauss(x,y,res,25),'natural','nearest');
+% rr=F(xx,yy);rr=gridGauss(rr,50,step);
+% rr10=rr(:,2*n+1:end);
+% rr0=rr(:,1:end-2*n);
+% rr10y=rr(1:end-2*n,:);
+% rr0y=rr(2*n+1:end,:);
+% rr0=[zeros(736,n) rr0 zeros(736,n)];
+% rr10=[zeros(736,n) rr10 zeros(736,n)];
+% 
+% rr10y=[zeros(n,992); rr10y; zeros(n,992)];
+% rr0y=[zeros(n,992); rr0y; zeros(n,992)];
+% dy=rr10y-rr0y;
+% % dy(isnan(rrn))=NaN;
+% % contour_plot(xx,yy,rr10y);
+% % contour_plot(xx,yy,rr0y);
+% dx=rr10-rr0;
+% % dx(isnan(rrn))=NaN;
+% % contour_plot(xx,yy,dx);
+% g=sqrt(dx.^2+dy.^2);g(isnan(rrn))=NaN;
+% contour_plot(xx,yy,g);
+% caxis([0 quantile(g(~isnan(g)),0.98)])
+% colormap(stoplight_stretch)
+% 
+% plot(1069,7500,'k*')
+% plot(rupx,rupy,'k')
+% axis equal
+% 
+% rr(isnan(rrn))=NaN;
+% contour_plot(xx,yy,rr);
+% 
+% % caxis([0 quantile(g(~isnan(g)),0.98)])
+% plot(1069,7500,'k*')
+% plot(rupx,rupy,'k')
+% axis equal
+% 
+% 
+% figure;s=surf(Lons,Lats,g,g,'FaceLighting','phong','FaceColor','interp', 'AmbientStrength',0.5,'SpecularStrength',0.5,'EdgeColor','k','EdgeAlpha',0);
+% caxis([0 quantile(g(~isnan(g)),0.98)])
+% colormap(stoplight_stretch)
+% hold on;view(0,90)
+% set(gcf,'Menu','none','Toolbar','none');%,'position',[12 38 683 879]);
+% set(gca,'units','normalize','position',[0 0 1 1],'color','none','TickLength',[0.0;0.0])
+% xlim([min(Lons(:)) max(Lons(:))]);ylim([min(Lats(:)) max(Lats(:))])
+% colorbar('Position',[0.1 0.025 0.025 0.2],'fontsize',12)
+% % plot3(rup(:,1),rup(:,2),rupz,'k-','linewidth',1)
+% %%
+% % p=camlight('infinite');
+% saveas(gcf,'grad','jpg');
+% [img1 cmap]=imread('grad.jpg');img=double(img1);
+% lon=[min(Lons(:)) max(Lons(:)); min(Lons(:)) max(Lons(:))];lat=[max(Lats(:)) max(Lats(:)); min(Lats(:)) min(Lats(:))];
+%  makekmz90(img,lat,lon,'imname','grad');
+%  rr0=rr;
+% %%
+%  resi=[CBA;addpoints(:,3)];
+% F=scatteredInterpolant(x,y,scatterGauss(x,y,CBA,15),'natural','nearest');
+% rr=F(xx,yy);
+% Fn=scatteredInterpolant(xi,yi,resi,'natural','none');
+% rrn=Fn(xx,yy);
+% 
+% rupz=F(rupx,rupy);
+% 
+% h=rr;h=gridGauss(h,15,step);h(isnan(rrn))=NaN;
+% nearby=0*xx+NaN;
+% for i=1:length(x)
+%     d=sqrt( (x(i)-xx).^2+ (y(i)-yy).^2);
+%     nearby(d<1000)=0;
+% end
+% h=h+nearby;
+% 
+% tic 
+% Lons=0*xx;Lats=0*yy;
+% for i=1:numel(xx)
+%     [a,b]=utm2deg(xx(i)+xbg,yy(i)+ybg,'17 S');
+%     Lons(i)=b;Lats(i)=a;
+% end
+% 
+% hp150plot1=h;%conv2(h,weights,'same');
+% c=2;%quantile(abs(h(~isnan(h))),0.975);
+%  hp150plot2=hp150plot1;
+% hp150plot1(isnan(h))=NaN;
+% hp150plot2(isnan(h))=NaN;
+% 
+% hp150plot2=hp150plot2-mean(hp150plot2(~isnan(hp150plot2)));
+%   hp150plot1=ElevInterp(xx+xbg,yy+ybg);
+%  figure;s=surf(Lons,Lats,hp150plot1,hp150plot2,'FaceLighting','phong','FaceColor','interp', 'AmbientStrength',0.5,'SpecularStrength',0.5,'EdgeColor','k','EdgeAlpha',0.0);
+% caxis([-c c]);colormap(flipud(hotgraycold2));
+% hold on;view(0,90)
+% set(gcf,'Menu','none','Toolbar','none','position',[1 1 range(x)/10 range(y)/10]);
+% set(gca,'units','normalize','position',[0 0 1 1],'color','none','TickLength',[0.0;0.0])
+% xlim([min(Lons(:)) max(Lons(:))]);ylim([min(Lats(:)) max(Lats(:))])
+% colorbar('Position',[0.08 0.025 0.05 0.25],'fontsize',12)
+% % % hold on;plot(Lon,Lat,'k.')saveas(gcf,'CBA','jpg');
+% % p=camlight('infinite');
+%  saveas(gcf,'CBAtopo','jpg');
+% 
+% [img1 cmap]=imread('CBAtopo.jpg');img=double(img1);
+% lon=[min(Lons(:)) max(Lons(:)); min(Lons(:)) max(Lons(:))];lat=[max(Lats(:)) max(Lats(:)); min(Lats(:)) min(Lats(:))];
+%  makekmz90(img,lat,lon,'imname','CBAtopo');
+%  toc
+% 
+% 
+%  %% 
+%  res1100=Inv1100(x,y,CBA);
+%  resi=[res1100;addpoints(:,3)];
+% F=scatteredInterpolant(x,y,res1100,'natural','nearest');
+% rr=F(xx,yy);
+% Fn=scatteredInterpolant(xi,yi,resi,'natural','none');
+% rrn=Fn(xx,yy);
+% 
+% h=rr;h=gridGauss(h,5,step);h(isnan(rrn))=NaN;
+% nearby=0*xx+NaN;
+% for i=1:length(x)
+%     d=sqrt( (x(i)-xx).^2+ (y(i)-yy).^2);
+%     nearby(d<1000)=0;
+% end
+% h=h+nearby;
+% 
+% tic 
+% Lons=0*xx;Lats=0*yy;
+% for i=1:numel(xx)
+%     [a,b]=utm2deg(xx(i)+xbg,yy(i)+ybg,'17 S');
+%     Lons(i)=b;Lats(i)=a;
+% end
+% 
+% hp150plot1=h;%conv2(h,weights,'same');
+% c=1.5;%quantile(abs(h(~isnan(h))),0.975);
+%  hp150plot2=hp150plot1;
+% hp150plot1(isnan(h))=NaN;
+% hp150plot2(isnan(h))=NaN;
+% 
+% hp150plot2=hp150plot2-mean(hp150plot2(~isnan(hp150plot2)));
+%  hp150plot1=ElevInterp(xx+xbg,yy+ybg);
+%  figure;s=surf(Lons,Lats,hp150plot1,hp150plot2,'FaceLighting','phong','FaceColor','interp', 'AmbientStrength',0.5,'SpecularStrength',0.5,'EdgeColor','k','EdgeAlpha',0.0);
+% caxis([-c c]);colormap(flipud(hotgraycold));
+% hold on;view(0,90)
+% set(gcf,'Menu','none','Toolbar','none');%,'position',[12 38 683 879]);
+% set(gca,'units','normalize','position',[0 0 1 1],'color','none','TickLength',[0.0;0.0])
+% xlim([min(Lons(:)) max(Lons(:))]);ylim([min(Lats(:)) max(Lats(:))])
+% colorbar('Position',[0.1 0.025 0.025 0.2],'fontsize',12)
+% % p=camlight('infinite');% hold on;plot(Lon,Lat,'k.')
+% saveas(gcf,'res1100','jpg');
+% [img1 cmap]=imread('res1100.jpg');img=double(img1);
+% lon=[min(Lons(:)) max(Lons(:)); min(Lons(:)) max(Lons(:))];lat=[max(Lats(:)) max(Lats(:)); min(Lats(:)) min(Lats(:))];
+%  makekmz90(img,lat,lon,'imname','res1100');
+%  toc
+% 
+% %%
+%  res1101=Inv1101(x,y,E,CBA,'verbose');
+%  res1101=scatterGauss(x,y,res1101,5);
+%  resi=[res1101;addpoints(:,3)];
+% F=scatteredInterpolant(x,y,res1101,'natural','nearest');
+% rr=F(xx,yy);
+% Fn=scatteredInterpolant(xi,yi,resi,'natural','none');
+% rrn=Fn(xx,yy);
+% 
+% h=rr;%h=gridGauss(h,5,step);
+% h(isnan(rrn))=NaN;
+% nearby=0*xx+NaN;
+% for i=1:length(x)
+%     d=sqrt( (x(i)-xx).^2+ (y(i)-yy).^2);
+%     nearby(d<1000)=0;
+% end
+% h=h+nearby;
+% 
+% tic 
+% Lons=0*xx;Lats=0*yy;
+% for i=1:numel(xx)
+%     [a,b]=utm2deg(xx(i)+xbg,yy(i)+ybg,'17 S');
+%     Lons(i)=b;Lats(i)=a;
+% end
+% 
+% hp150plot1=h;%conv2(h,weights,'same');
+% c=1.5;%quantile(abs(h(~isnan(h))),0.975);
+%  hp150plot2=hp150plot1;
+% hp150plot1(isnan(h))=NaN;
+% hp150plot2(isnan(h))=NaN;
+% 
+% hp150plot2=hp150plot2-mean(hp150plot2(~isnan(hp150plot2)));
+%  hp150plot1=ElevInterp(xx+xbg,yy+ybg);
+%  figure;s=surf(Lons,Lats,hp150plot1,hp150plot2,'FaceLighting','phong','FaceColor','interp', 'AmbientStrength',0.5,'SpecularStrength',0.5,'EdgeColor','k','EdgeAlpha',0.0);
+% caxis([-c c]);colormap(flipud(hotgraycold));
+% hold on;view(0,90)
+% set(gcf,'Menu','none','Toolbar','none');%,'position',[12 38 683 879]);
+% set(gca,'units','normalize','position',[0 0 1 1],'color','none','TickLength',[0.0;0.0])
+% xlim([min(Lons(:)) max(Lons(:))]);ylim([min(Lats(:)) max(Lats(:))])
+% colorbar('Position',[0.1 0.025 0.025 0.2],'fontsize',12)
+% % p=camlight('infinite');% hold on;plot(Lon,Lat,'k.')
+% saveas(gcf,'res1101','jpg');
+% [img1 cmap]=imread('res1101.jpg');img=double(img1);
+% lon=[min(Lons(:)) max(Lons(:)); min(Lons(:)) max(Lons(:))];lat=[max(Lats(:)) max(Lats(:)); min(Lats(:)) min(Lats(:))];
+%  makekmz90(img,lat,lon,'imname','res1101');
+%  toc
+% 
+% 
+% %%
+% tic 
+% 
+% lp=90;
+% F=scatteredInterpolant(x,y,res-scatterGauss(x,y,res,lp),'natural','nearest');
+% rr=F(xx,yy);
+% 
+% h=rr;%-gridGauss(rr,lp,step);
+% h=gridGauss(rr,10,step);
+% h(isnan(rrn))=NaN;
+% nearby=0*xx+NaN;
+% for i=1:length(x)
+%     d=sqrt( (x(i)-xx).^2+ (y(i)-yy).^2);
+%     nearby(d<lp)=0;
+% end
+% h=h+nearby;
+% 
+% hp150plot1=h;
+% c=quantile(abs(h(~isnan(h))),0.995);
+%  hp150plot2=hp150plot1;
+% hp150plot1(isnan(h))=NaN;
+% hp150plot2(isnan(h))=NaN;
+% % figure;s=surf(Lons,Lats,hp150plot1,hp150plot2,'FaceLighting','phong','FaceColor','interp', 'AmbientStrength',0.5,'SpecularStrength',0.5,'EdgeColor','k','EdgeAlpha',0.0);colormap(jetGravity_long);
+% % hold on;view(0,90)
+% % set(gcf,'Menu','none','Toolbar','none');%,'position',[12 38 683 879]);
+% % set(gca,'units','normalize','position',[0 0 1 1],'color','none','TickLength',[0.0;0.0])
+% % caxis([-c c]);colormap(flipud(hotcoldbreak));
+% % xlim([min(Lons(:)) max(Lons(:))]);ylim([min(Lats(:)) max(Lats(:))])
+% % colorbar('Position',[0.1 0.025 0.025 0.2],'fontsize',12)
+% % p=camlight('infinite');% hold on;plot(Lon,Lat,'k.')
+% %  saveas(gcf,['shadeHP' num2str(lp)],'jpg');
+% % [img1 cmap]=imread(['shadeHP' num2str(lp) '.jpg']);img=double(img1);
+% % lon=[min(Lons(:)) max(Lons(:)); min(Lons(:)) max(Lons(:))];lat=[max(Lats(:)) max(Lats(:)); min(Lats(:)) min(Lats(:))];
+% %  makekmz90(img,lat,lon,'imname',['hcshadeHP' num2str(lp)]);
+%  toc
+% 
+%  % hp150plot1=ElevInterp(xx+xbg,yy+ybg);
+%  figure;s=surf(Lons,Lats,hp150plot1,hp150plot2,'FaceLighting','phong','FaceColor','interp', 'AmbientStrength',0.5,'SpecularStrength',0.5,'EdgeColor','k','EdgeAlpha',0.0);
+% caxis([-c c]);colormap(flipud(hotcoldbreak2));
+% hold on;view(0,90)
+% set(gcf,'Menu','none','Toolbar','none');%,'position',[12 38 683 879]);
+% set(gca,'units','normalize','position',[0 0 1 1],'color','none','TickLength',[0.0;0.0])
+% xlim([min(Lons(:)) max(Lons(:))]);ylim([min(Lats(:)) max(Lats(:))])
+% colorbar('Position',[0.1 0.025 0.025 0.2],'fontsize',12)
+% % p=camlight('infinite');% hold on;plot(Lon,Lat,'k.')
+% saveas(gcf,['HP' num2str(lp)],'jpg');
+% [img1 cmap]=imread(['HP' num2str(lp) '.jpg']);img=double(img1);
+% lon=[min(Lons(:)) max(Lons(:)); min(Lons(:)) max(Lons(:))];lat=[max(Lats(:)) max(Lats(:)); min(Lats(:)) min(Lats(:))];
+%  makekmz90(img,lat,lon,'imname',['HP' num2str(lp)]);
+%  toc
+% 
+%  %%
+% 
+% 
+% lp=500;
+% F=scatteredInterpolant(x,y,scatterGauss(x,y,res,lp/50),'natural','nearest');
+% rr=F(xx,yy);
+% h=rr-gridGauss(rr,lp,step);h=gridGauss(h,lp/25,step);h(isnan(rrn))=NaN;
+% 
+% nearby=0*xx+NaN;
+% for i=1:length(x)
+%     d=sqrt( (x(i)-xx).^2+ (y(i)-yy).^2);
+%     nearby(d<lp*sqrt(2))=0;
+% end
+% h=h+nearby;
+% 
+% contour_plot(xx,yy,h);
+% c=caxis;
+% c=c(1)/-2+c(2)/2;
+% caxis([-c/3 c/3])
+% colorbar
+% 
+% 
+% tic 
+% Lons=0*xx;Lats=0*yy;
+% for i=1:numel(xx)
+%     [a,b]=utm2deg(xx(i)+xbg,yy(i)+ybg,'17 S');
+%     Lons(i)=b;Lats(i)=a;
+% end
+% 
+% hp150plot1=h;%conv2(h,weights,'same');
+% % c=2*mean(abs(hp150plot1(~isnan(hp150plot1))));
+% % c=quantile(abs(hp150plot1(~isnan(hp150plot1))),0.999);
+% c=quantile(abs(res),0.995);
+%  hp150plot1(hp150plot1>c)=c;hp150plot1(hp150plot1<-c)=-c;
+%  hp150plot2=hp150plot1;
+% hp150plot2(hp150plot2>c)=c;hp150plot2(hp150plot2<-c)=-c;
+% hp150plot1(isnan(h))=NaN;
+% hp150plot2(isnan(h))=NaN;
+% figure;s=surf(Lons,Lats,hp150plot1,hp150plot2,'FaceLighting','phong','FaceColor','interp', 'AmbientStrength',0.5,'SpecularStrength',0.5,'EdgeColor','k','EdgeAlpha',0.0);
+% 
+% % figure;s=surf(Lons,Lats,hp150plot1,hp150plot2,'FaceLighting','phong','EdgeAlpha',0.0,'EdgeColor','none');
+% colormap(flipud(hotcoldbreak));view(0,90)
+% p=camlight('infinite');
+% set(gcf,'Menu','none','Toolbar','none','position',[12 38 683 879]);
+% set(gca,'units','normalize','position',[0 0 1 1],'color','none','TickLength',[0.0;0.0])
+% caxis([-c c]);colormap(flipud(hotcoldbreak));
+% xlim([min(Lons(:)) max(Lons(:))]);ylim([min(Lats(:)) max(Lats(:))])
+% colorbar('Position',[0.1 0.025 0.025 0.2],'fontsize',12)
+% 
+%  saveas(gcf,'shadeHP750_2500_15m','jpg');
+% [img1 cmap]=imread('shadeHP750_2500_15m.jpg');img=double(img1);
+% lon=[min(Lons(:)) max(Lons(:)); min(Lons(:)) max(Lons(:))];lat=[max(Lats(:)) max(Lats(:)); min(Lats(:)) min(Lats(:))];
+%  makekmz(img,lat,lon,'imname','shade_HP750_2500_15m');
+% 
+% 
+% 
+% 
+% 
+% 
+% 
+% %%
+% 
+% 
+% 
+% r=res;%-scatterGauss(x,y,res,1000);
+% r=scatterGauss(x,y,r,25);
+% makefig_makekmz(Lon,Lat,r,15/111e3,1000/111e3,'res_full','mGal',flipud(hotgraycold))
+% r=r-scatterGauss(x,y,r,500);
+% makefig_makekmz(Lon,Lat,r,15/111e3,500/111e3,'hp500','mGal',jet)
+% 
+% % 
+% x0=x;y0=y;res0=res;
+% xy=[x y];clear res
+% xy=unique(xy, 'rows');
+% x=xy(:,1);y=xy(:,2);res=0*x;
+% for i=1:length(x)
+%     match=find(x0==x(i) & y0==y(i));
+%     res(i)=median(res0(match));
+% end
+% 
+% 
+% F=scatteredInterpolant(x,y,res,'natural','nearest');
+% xx=-1500:100:3800;
+% yy=6500:100:10500;
+% [xx,yy]=mesh_replace(xx,yy);
+% res=F(xx,yy);
+% x=xx;y=yy;
+% clear xx yy
+% 
+% E=ElevInterp(x+xbg,y+ybg);
+% 
+% min_spacing= sqrt((range(x)*range(y))/2000);
+% zs_global=[750 500 275 150 100 50 25 0];
+% gauss_sig=1000;smoothweight=1e-4;
+% standardizedPartitionedInversion
+% 
+% %%
+% 
+% xxs=linspace(-1500,3500, 400);%   x(sta==2030),x(sta==2580)-5,200);
+% yxs=linspace(9700,7850,length(xxs));% y(sta==2030)-20,y(sta==2580)-22,length(xxs));
+% 
+% dx=50;dy=100;
+% cmin=-300;cmax=300;
+% letter='A';
+% figure(i_layer+1);
+% standardizedCrossSection
+% 
+% % for i=1:i_layer;
+% %     figure(i);hold on;plot(xxgp,yxgp,'k')
+% % end
+% 
+% % % xy=[x(x~=1297) y(x~=1297)];
+% % % xy=unique(xy,'rows');
+% % % rep=xy(:,1)+NaN;
+% % % for i=1:length(xy)
+% % %     match=find(x==xy(i,1) & y==xy(i,2));
+% % %     if length(match)>1
+% % %         meanmatch=mean(res(match));
+% % %         dmatch=res(match)-meanmatch;
+% % %         rep(i)=mean(dmatch);
+% % %     end
+% % % end
+% % %%
+% % rep=NaN+x;
+% % for i=1:length(x)
+% %     match=find(x==x(i) & y==y(i));
+% %     if length(match)>1
+% %         meanmatch=mean(res(match));
+% %         dmatch=res(match)-meanmatch;
+% %         rep(i)=mean(abs(dmatch));
+% %     end
+% % end
+% % rep(x==1297 & y==8682)=NaN;
+% % % res=Inv1100(x,y,CBA);
+% % % 
+% % % p1=find(x==1317 & y==8665);
+% % % p2=find(x==1697 & y==8803);
+% % % 
+% % % loc_x=x(p1)/2+x(p2)/2;
+% % % loc_y=y(p1)/2+y(p2)/2;
+% % % loc_Lon=Lon(p1)/2+Lon(p2)/2;
+% % % loc_Lat=Lat(p1)/2+Lat(p2)/2;
+% % % loc_res=res(p1)/2+res(p2)/2;
+% % % 
+% % % x=[x;loc_x];
+% % % y=[y;loc_y];
+% % % Lon=[Lon;loc_Lon];
+% % % Lat=[Lat;loc_Lat];
+% % % res=[res;loc_res];
+% % % 
+% % % loc_x=2*x(p1)/3+x(p2)/3;
+% % % loc_y=2*y(p1)/3+y(p2)/3;
+% % % loc_Lon=2*Lon(p1)/3+Lon(p2)/3;
+% % % loc_Lat=2*Lat(p1)/3+Lat(p2)/3;
+% % % loc_res=2*res(p1)/3+res(p2)/3;
+% % % 
+% % 
+% % % x=[x;min(x);2650;2950;1050;1100;2100;max(x)-100;max(x)-100];
+% % % y=[y;mean(y);9030;9070;10150;8500;10890;max(y);max(y)-100];
+% % % res=[res;0;1;1;0.6;0.3;0.7;1;1];
+% % 
+% % 
+% % % make_contour(x,y,res,20,500);plot(x,y,'g*');plot(x,y,'ko')
+% % 
+% % 
+% % % Lon=0*x;Lat=0*y;
+% % % for i=1:numel(dat(:,1))
+% % %     [a,b]=utm2deg(x(i)+xbg,y(i)+ybg,'17 S');
+% % %     Lon(i)=b;Lat(i)=a;
+% % % end
+% % 
+% %  [Lat,Lon]=utm2deg(x+xbg,y+ybg,repmat('17 S',length(x),1));
+% % 
+% % 
+% % % r=res;%-scatterGauss(x,y,res,1000);
+% % % r=scatterGauss(x,y,r,25);
+% % % makefig_makekmz(Lon,Lat,r,15/111e3,1000/111e3,'res_full','mGal',flipud(hotgraycold))
+% % % r=r-scatterGauss(x,y,r,500);
+% % % % r=scatterGauss(x,y,r,20);
+% % % makefig_makekmz(Lon,Lat,r,15/111e3,500/111e3,'hp500','mGal',jet)
+% % % % makefig_makekmz(Lon,Lat,res,5/111e3,325/111e3,'res250','mGal',(jet))
+% % % % makefig_makekmz(Lon,Lat,CBA,5/111e3,555*2/111e3,'CBA','mGal',(jet))
+% % % % makefig_makekmz(Lon,Lat,CBA,5/111e3,400/111e3,'CBA','mGal',(jet))
+% % % 
+% % % % make_contour(x,y,res,5,350);plot(x,y,'ko')
+% 
+% %%
+% % close all
+% step=10;
+% [xx,yy]=gridxy(x,y,step);  yy=flipud(yy);
+% % yy(2:2:end,:)=yy(2:2:end,:)+step/2;
+% xi=[x;max(x)+500;min(x)-500;min(x)-500;max(x)+500;mean(x);mean(x)];
+% yi=[y;max(y)+500;max(y)+500;min(y)-500;min(y)-500;max(y)+1000;min(y)-2000];
+% % xi=[x;max(x);min(x);min(x);min(x)+1000;min(x)+2000;max(x);mean(x);mean(x);max(x)];
+% % yi=[y;max(y);max(y);min(y);min(y);min(y);min(y);max(y);min(y);max(y);];
+% Lons=0*xx;Lats=0*yy;
+% for i=1:numel(xx);[a,b]=utm2deg(xx(i)+xbg,yy(i)+ybg,'17 S');Lons(i)=b;Lats(i)=a;end
+% 
+% tic
+% near50=NaN+xx;
+% for i=1:length(x)
+%     d=sqrt( (yy-y(i)).^2+(xx-x(i)).^2);
+%     near50(d<1000)=0;
+% end
+% toc
+% 
+% %% 
+% hp=res;%scatterGauss(x,y,res,20);
+% % hp=hp-scatterGauss(x,y,hp,500);
+% resi=[hp;NaN(6,1)];
+% % resi=[hp;NaN(9,1)];
+% F=scatteredInterpolant(x,y,hp,'natural','nearest');
+% Fn=scatteredInterpolant(xi,yi,resi,'natural','none');
+% h=F(xx,yy);
+% %  lp=gridGauss(h,1000,step);h=h-lp;
+% h=gridGauss(h,20,step);
+% hn=Fn(xx,yy);
+% 
+% 
+% h(isnan(hn))=NaN;%h(isnan(h))=0; 
+% h=h+near50;h(isnan(hn))=NaN;
+% 
+% 
+% hp100plot1=h;hp100plot1=hp100plot1-median(hp100plot1(~isnan(hp100plot1)));hp100plot2=hp100plot1;
+% % c=1.5;
+% c=quantile(abs(hp100plot1(~isnan(hp100plot1))),1);
+% hp100plot1(hp100plot1>c)=c;hp100plot1(hp100plot1<-c)=-c;
+% hp100plot2(hp100plot2>c)=c;hp100plot2(hp100plot2<-c)=-c;hp100plot1(isnan(h))=NaN;hp100plot2(isnan(h))=NaN;
+% 
+% 
+% 
+% figure;s=surf(Lons,Lats,hp100plot1,hp100plot2,'FaceLighting','phong','FaceColor','interp', 'AmbientStrength',0.5,'SpecularStrength',0.5,'EdgeColor','k','EdgeAlpha',0.0);
+% colormap(flipud(hotcoldbreak));
+% view(0,90);
+% 
+% p=camlight('infinite');
+% %set(gcf,'Menu','none','Toolbar','none','position',[12 38 683 879]);
+% set(gca,'units','normalize','position',[0 0 1 1],'color','none','TickLength',[0.0;0.0])
+% 
+% colorbar('position',[0.05 0.025 0.03 0.18],'fontsize',12,'fontweight','bold')
+% c=quantile(abs(hp100plot1(~isnan(hp100plot1))),0.95);
+% % if c<1;c=1;end
+% caxis([-c c]);xlim([min(Lons(:)) max(Lons(:))]);ylim([min(Lats(:)) max(Lats(:))])
+% 
+% rupture=[-81.082134 36.488616
+%    -81.107156 36.496116 ];
+% hold on
+% % plot3(rupture(:,1),rupture(:,2),0*rupture(:,1),'m','linewidth',4)
+% % plot3(rupture(:,1),rupture(:,2),-0.25+0*rupture(:,1),'m','linewidth',4)
+% % 
+% %     2614 8168
+% %     10375 8989]
+% 
+% saveas(gcf,'shaderes','jpg');
+% [img1 cmap]=imread('shaderes.jpg');
+% img=double(img1);lon=[min(Lons(:)) max(Lons(:)); min(Lons(:)) max(Lons(:))];lat=[max(Lats(:)) max(Lats(:)); min(Lats(:)) min(Lats(:))];
+% makekmz90(img,lat,lon,'imname','shaderes');
+% 
+% 
+% h=F(xx,yy);
+% h=gridGauss(h,20,step);
+%   lp=gridGauss(h,500,step);h=h-lp;
+% hn=Fn(xx,yy);
+% 
+% 
+% h(isnan(hn))=NaN;%h(isnan(h))=0; 
+% h=h+near50;h(isnan(hn))=NaN;
+% 
+% 
+% hp100plot1=h;hp100plot1=hp100plot1-median(hp100plot1(~isnan(hp100plot1)));hp100plot2=hp100plot1;
+% % c=1.5;
+% c=quantile(abs(hp100plot1(~isnan(hp100plot1))),1);
+% hp100plot1(hp100plot1>c)=c;hp100plot1(hp100plot1<-c)=-c;
+% hp100plot2(hp100plot2>c)=c;hp100plot2(hp100plot2<-c)=-c;hp100plot1(isnan(h))=NaN;hp100plot2(isnan(h))=NaN;
+% 
+% 
+% 
+% figure;s=surf(Lons,Lats,hp100plot1,hp100plot2,'FaceLighting','phong','FaceColor','interp', 'AmbientStrength',0.5,'SpecularStrength',0.5,'EdgeColor','k','EdgeAlpha',0.0);
+% colormap(flipud(hotcoldbreak));
+% view(0,90);
+% 
+% p=camlight('infinite');
+% %set(gcf,'Menu','none','Toolbar','none','position',[12 38 683 879]);
+% set(gca,'units','normalize','position',[0 0 1 1],'color','none','TickLength',[0.0;0.0])
+% 
+% colorbar('position',[0.05 0.025 0.03 0.18],'fontsize',12,'fontweight','bold')
+% c=quantile(abs(hp100plot1(~isnan(hp100plot1))),0.95);
+% % if c<1;c=1;end
+% caxis([-c c]);xlim([min(Lons(:)) max(Lons(:))]);ylim([min(Lats(:)) max(Lats(:))])
+% 
+% rupture=[-81.082134 36.488616
+%    -81.107156 36.496116 ];
+% hold on
+% % plot3(rupture(:,1),rupture(:,2),0*rupture(:,1),'m','linewidth',4)
+% % plot3(rupture(:,1),rupture(:,2),-0.25+0*rupture(:,1),'m','linewidth',4)
+% % 
+% %     2614 8168
+% %     10375 8989]
+% 
+% saveas(gcf,'shadeHP500','jpg');
+% [img1 cmap]=imread('shadeHP500.jpg');
+% img=double(img1);lon=[min(Lons(:)) max(Lons(:)); min(Lons(:)) max(Lons(:))];lat=[max(Lats(:)) max(Lats(:)); min(Lats(:)) min(Lats(:))];
+% makekmz90(img,lat,lon,'imname','shadeHP500');
+% 
+% 
+% % %%
+% % p=load('bouguer.xyz');
+% % okay=find(abs(p(:,1)--81.1)<0.35 & abs(p(:,2)-36.5)<0.3);
+% % p=p(okay,:);
+% % p(:,3)=p(:,3)-mean(p(:,3));
+% % 
+% % 
+% % %% if Desktop/Decluster2023/SpartaSpecific/SpartaDesktop_v2 has been run recently
+% % close all
+% % F_desktop=scatteredInterpolant(Lon1,Lat1,g0,'natural','nearest');
+% % g_desktop=F_desktop(Lon,Lat);
+% % % res_desktop=Inv1100(x,y,g_desktop);
+% % res_desktop=Inv1101(x,y,E,g_desktop,'verbose');
+% % 
+% % g_desktop=F_desktop(Lons,Lats);
+% % make_contour(x,y,res_desktop,10,1000);
+% % make_contour(x,y,res,10,1000);plot(x,y,'g*');plot(x,y,'ko')
+% % 
+% % 
+% % dres=res-res_desktop;
+% % make_contour(x,y,dres,10,1000);plot(x,y,'g*');plot(x,y,'ko')
+% % 
+% % makefig_makekmz(Lon,Lat,res_desktop,5/111e3,1000/111e3,'satelliteResgrav','mGal',flipud(hotcoldbreak))
+% % 
+% % 
+% % res_desktop=F_desktop(Lons,Lats);
+% % Lons_=Lons(~isnan(res_desktop));
+% % Lats_=Lats(~isnan(res_desktop));
+% % res_=res_desktop(~isnan(res_desktop));
+% % res2=Inv1100(Lons_,Lats_,res_);
+% % % make_contour(Lons_,Lats_,res2);
+% % makefig_makekmz(Lons_,Lats_,res2,5/111e3,1000/111e3,'satelliteResgrav','mGal',flipud(hotcoldbreak))
+% 
+% %%
+% 
+% % 
+% % profile_x=linspace(978,1378,1000);
+% % profile_y=linspace(8268 ,8825,1000);
+% % 
+% % F=scatteredInterpolant(x,y,res,'natural','nearest');
+% % profile=F(profile_x,profile_y);
+% % dx=profile_x-profile_x(1);dy=profile_y-profile_y(1);
+% % dl=sqrt(dx.^2+dy.^2);
+% % 
+% % % p=polyfit(dl,profile,1);pred=polyval(p,dl);profile=profile-pred;
+% % figure;plot(dl,profile,'k','linewidth',3);hold on
+% % 
+% % ylim([min(profile) max(profile)])
+% % plot([528 528],[-999 999],'r')
+% 
+% 
+% 
+% profile_x=linspace(978,1474,1000);
+% profile_y=linspace(8258 ,8905,1000);
+% 
+% F=scatteredInterpolant(x,y,res,'natural','nearest');
+% profile=F(profile_x,profile_y);
+% dx=profile_x-profile_x(1);dy=profile_y-profile_y(1);
+% dl=sqrt(dx.^2+dy.^2);
+% p=polyfit(dl,profile,1);pred=polyval(p,dl);profile=profile-pred;
+% 
+% figure;plot(dl,profile,'k','linewidth',3);hold on
+% 
+% ylim([min(profile) max(profile)])
+% lcross=dl(find(profile_y>8693,1,'first'));
+% plot([lcross lcross],[-999 999],'m')
+% plot(dl,profile,'k','linewidth',3);
+% 
+% 
+% ylim([-0.2 0.4])
+% xlabel('Profile distance, m');
+% ylabel('Detrended residual, mGal')
+% set(gcf,'Position',[476 446 280 210])
+% saveas(gcf,'ProfileCenter','jpg')
+% % profile_x=linspace(383,670,1000);
+% % profile_y=linspace(8679 ,8922,1000);
+% % 
+% % F=scatteredInterpolant(x,y,res,'natural','nearest');
+% % profile=F(profile_x,profile_y);
+% % dx=profile_x-profile_x(1);dy=profile_y-profile_y(1);
+% % dl=sqrt(dx.^2+dy.^2);
+% % % p=polyfit(dl,profile,1);pred=polyval(p,dl);profile=profile-pred;
+% % 
+% % figure;plot(dl,profile,'k','linewidth',3);hold on
+% % 
+% % ylim([min(profile) max(profile)])
+% % lcross=dl(find(profile_y>8894,1,'first'));
+% % plot([lcross lcross],[-999 999],'r')
+% % plot(dl,profile,'k','linewidth',3);
+% 
+% % profile_x=linspace(1065,1767,1000);
+% % profile_y=linspace(7600 ,8758,1000);
+% 
+% profile_x=linspace(1472,1892,1000);
+% profile_y=linspace(8172 ,8683,1000);
+% 
+% F=scatteredInterpolant(x,y,res,'natural','nearest');
+% profile=F(profile_x,profile_y);
+% dx=profile_x-profile_x(1);dy=profile_y-profile_y(1);
+% dl=sqrt(dx.^2+dy.^2);
+% p=polyfit(dl,profile,1);pred=polyval(p,dl);profile=profile-pred;
+% 
+% figure;plot(dl,profile,'k','linewidth',3);hold on
+% 
+% ylim([min(profile) max(profile)])
+% lcross=dl(find(profile_y>8497,1,'first'));
+% plot([lcross lcross],[-999 999],'m')
+% plot(dl,profile,'k','linewidth',3);
+% ylim([-0.2 0.4])
+% xlabel('Profile distance, m');
+% ylabel('Detrended residual, mGal')
+% set(gcf,'Position',[476 446 280 210])
+% saveas(gcf,'ProfileEast','jpg')
+% % profile_x=linspace(1065,1767,1000);
+% % profile_y=linspace(7600 ,8758,1000);
+% 
+% profile_x=linspace(-82,0750,1000);
+% profile_y=linspace(8415 ,9222,1000);
+% 
+% F=scatteredInterpolant(x,y,res,'natural','nearest');
+% profile=F(profile_x,profile_y);
+% dx=profile_x-profile_x(1);dy=profile_y-profile_y(1);
+% dl=sqrt(dx.^2+dy.^2);
+% p=polyfit(dl,profile,1);pred=polyval(p,dl);profile=profile-pred+0.15;
+% 
+% figure;plot(dl,profile,'k','linewidth',3);hold on
+% 
+% ylim([min(profile) max(profile)])
+% lcross=dl(find(profile_y>8974,1,'first'));
+% plot([lcross lcross],[-999 999],'m')
+% plot(dl,profile,'k','linewidth',3);
+% ylim([-0.2 0.4])
+% xlabel('Profile distance, m');
+% ylabel('Detrended residual, mGal')
+% set(gcf,'Position',[476 446 280 210])
+% saveas(gcf,'ProfileWest','jpg')
+% %%

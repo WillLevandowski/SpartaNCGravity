@@ -1,0 +1,204 @@
+1297 8682 91.082 %08:50 
+1040 8338 93.102 %repeat
+1038 8372 92.999 %veg corner
+1073 8263 92.515 %near creek, north of driveway and across
+1018 8223 91.126 %upper gravel lot
+1030 8230 91.641 %lower lot at utility 
+0773 8406 92.590 %NW corner 
+0823 8375 92.835 %NE corner 
+0791 8393 92.806 %center, 3 m from edge
+0585 8446 93.699 %5mN utility in lot
+
+%%10 data 09:26
+0544 8458 94.572 %two track aligned w shed
+0591 8471 93.833 %shed center
+8725 0288 90.827 %hotel base
+1297 8682 91.082
+5386 2541 101.575 %twin oaks behind Browns 
+5358 2532 101.241 %aligned with gas sign n edge 
+5621 2317 99.824  %corner driveway 
+6148 2005 92.099 
+6166 1992 91.770 %trail to scrappy crag
+7014 1358 88.728 %entrance 
+6971 1335 88.132 %near corner dway 
+5311 0762 80.954  %twin Mtn 
+6005 0848 84.120 %across from 730
+6589 1131 87.462
+6869 1291 88.623
+7845 1079 92.224
+%%%%%
+8725 0288 90.755 %10:52
+%%%%% head north to 2500
+1297 8682 91.020  %10:52
+9320 0840 86.855 % library SE
+9188 2289 91.008 %gate east 
+9092 2492 87.994 %power lines
+9398 1796 86.650 %evergreen view dr
+
+%30 data 11:19
+9402 1822 87.430 %  paved bulge N 
+9414 1092 82.111 % 506
+7792 9004 89.210 %10mS rail
+7207 7223 82.388 %veg corner 5m from rd
+7171 7172 83.488 %20m from dway, 5m from rd
+6729 6903  80.465
+6703 6905 80.277 %utility
+6817 6005 80.044 %
+7351 6168 89.085 %405
+7677 5991 88.634 %prop corner 
+8058 5868 89.537 %parking
+8108 5867 89.865 %bend at stream 12:20 lunch
+8108 5867  89.872 %bend at stream 12:28
+8108 5867  89.870 %bend at stream 12:35
+
+8371 5888 89.986 %10m from intx
+8378 5892 89.935 %S L intx
+8506 6629 90.290
+
+8538 6663 89.634
+9419 6834 95.720 %utility 
+9391 6879 95.472 %dway edge
+%50 data
+9076 7902 82.455 %repeat
+9036 7858 83.676 %NW L lawn 
+9050 7883 82.545 %pavement L
+9006 8120 81.654 %in front of house
+%9148 7460 89.046 %parking lot recorded as 84.046
+9419 6834  95.695 %repeat 13:30 95.720 at 13:00?
+9628 6750 92.882
+9655 6791 92.022 %20m from intx
+0317 6754 86.382 %mailbox
+0391 6943 85.325 %carolina
+
+%60 data 13:58
+0049 7118 84.262 %gate Carolina 
+0515 7004 81.315 %fence line
+0630 7395 81.161 %fence line 14:11
+0273 7467 93.159 %creek bottom with sandy stone subcrops 
+9815 7579 96.440 %west end
+9893 7547 96.658 %east end of beautiful camp
+9860 7566 96.472 %w side fire ring 
+0042 7507 92.155 %center intx
+0839 7282 85.719 %post
+1297 8682 91.012  %14:54
+
+
+3331 9141 88.534 %SE intx
+3382 9146 88.770 %gate
+3847 8820 90.079 %duncan valley lane
+4457 8769 97.007
+4578 8831 98.185 %pullout and two track 
+4921 6014 107.170
+1297 8682 90.936  %14:54
+
+
+
+
+
+1297 8682 84.935 %base
+1294 8733 84.649 %North corner bush 8:59
+1290 8724 84.892 %west corner
+1287 8715 85.030 %10 paces along wood edge. Almost to big tree 
+1283 8704 85.075 %in line with fence across road
+1297 8682 84.955 %base 9:13
+
+1108 8605 85.175 %second utility
+1064 8589 85.964 %60 paces not yet to shed or third utikityu
+1025 8586 86.621 %NW corner of shed 
+970 8607 87.711 %flat area in woods on migmatite 60 paces
+946 8625 87.730 %shoulder ridge in woods flat 30 paces N305E from last
+
+1164 8620 84.503 %utility
+1145 8402 87.235 % bend at pond. north side of road
+1244 7938 82.930 %third space in lot
+
+%1365 7910 81.952 %elevation probably different
+1458 8014 79.797 %flats 10;11
+1503 8045 81.141 %center of clearing in line with two track
+1500 8067 81.762 %fence line toward east end of pond...wall of thorns
+1420 8116 81.368 %crest
+1458 8014 79.804 % reoccupation 10:36
+1323 7886 82.590 %corner of old gravel
+1224 7903 83.614 %at hwy 10:50
+
+1297 8682 84.890
+1187 7894 83.643 %across creek
+1143 7870 82.280 %50 meters?
+1104 7840 81.035 %50 meters?
+1066 7813 79.636 %edge of woods 60 meters
+1020 7782 78.565 %8mN southern tree 
+%%%%
+00955 7726 78.817 %four points on phone. fence corner
+0960 7798 79.469 %fenceline intx trees
+0960 7850 79.784 %along fence south end of last grove
+968 7905 80.303 %last trees
+0968 7950 80.410 %entering woods
+0977 8015 81.145 
+0993 8080 82.087 %back of field away from fence bc there is a slope along fence
+0991 8130 82.777 %fence at powerline
+0991 8170 83.420 %last grove along fence
+0995 8206 84.420 %sandstone subcrop at fence corner
+1031 8169 84.407 %btw W trees and fence. orthoquartzite float
+1063 8126 84.180 %electric box
+1115 8032 83.601 %across from driveway sandy foliated float longer walk. up the hill
+1134 8007 83.425 %across from east chainlink fence hill seems like subcrop
+1158 7960 83.798 %field cornee
+1087 8092 84.455
+1224 7903 83.614 %at hwy 12:30
+1224 7903 83.614 %at hwy 12:40
+
+
+1317 7884 82.667
+
+1328 7745 81.257 %hawks produce
+1336 7649 80.767 %near repeat
+
+%%%several on phone
+1331 7667 80.940 %gate
+1323 7622 80.207
+1303 7593 79.720
+1276 7565 79.155
+1120 7515 78.410
+1073 7570 77.944
+1005 7645 77.514
+0982 7661 77.459
+0979 7672 77.436
+0969 7708 78.680
+0934 7757 79.175
+0865 7770 80.670 %867 7760 minor thalweg btw powerlines and trees, not yet to the primary thalweg
+0810 7781 80.922 %fence corner
+0755 7735 78.445 %repeat from day 5
+0884 7685 77.787 %bldg side of tree
+0992 7696 78.354 %btw post and utility at bottom of hill
+
+2234.5 7291 86.692 %qmart  2:30
+2234.5 7291 86.689 %qmart 2:38
+
+2282 7188 88.088 %just into driveway
+2264 7299 87.316 % utility 
+2234.5 7291 86.687 %qmart 2:38
+
+1297 8682 84.880 %sketchy 3:01 85.865
+1259 8621 83.789 
+1839 8232 75.691 %intx
+1822 8146 77.437 %low point
+1821 8135 77.410 %redundant 10m away
+1811 8081 75.812%center intx
+1808 8089 75.926%SWmost tree, redundant
+1828 8214 75.491 %high north side intx
+1971 8286 80.955 %in line with trees
+1982 8290 81.230 %in line with lower trees
+2008 8300 82.229
+2033 8309 83.215 % up from log
+2062 8321 84.599 %in line with lowest trees at fence
+2065 8332 84.785 %at bend but south of line of trees 
+
+
+
+1693 8263 77.007
+1674 8235.5 77.120
+1647 8198 77.592
+%1297 8682 84.759 %wrote down 84.759
+%1271 8684 84.791 %east side tree
+1274 8677 84.785 %10 meters east at road 5meter before trees meet shoulder 
+1297 8682 84.801

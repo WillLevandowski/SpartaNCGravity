@@ -1,0 +1,96 @@
+%%%Sparta 2 October 
+
+1297 8682 92.097 %guess from choate dairy drift and tie to Duncan Dr. 
+
+% 494686 4042691 4609.830  %chestnut grove church road and sally road ne intx 11:37
+4692 2695 109.830  %chestnut grove church road and sally road ne intx 11:37
+4232 2326 110.852 %pioneer. first tree 10mSE intx
+3524 1776 107.695   %just S power lines center two track 
+3435 1022 99.450  %stop sign choate dairy rd 11:59
+2321 1401 112.145 % river hill sw intx 12:05 
+2414 9957 103.775 %pole at bend check utmy that it was not 9557. 
+2224 0199 102.011 %apex of bend
+2398 0480 99.055 %a few m down river hill from hidden valley
+2584 0167 105.745 %few m down left fork
+2429 0287 104.300 %SE intx
+2369 0704 98.835 %SE intx
+2660 0670 98.899 %center two track near outbuildings 
+2619 1355 114.455 %w side gravel 
+3435 1022 99.410 %Choate Dairy Rd repeat 13:05 -0.040 / 65 min
+
+3402 0347 99.345 %garvey grove park 
+3421 9824 92.955 %se corner lot recorded as 92.955
+3333 9160 89.561 %NE intx recorded as 89.561
+3076 8868 88.573 %gate 2mW road
+3042 8564 88.047 %chestnut grove church rd across from center of intx
+2677 8203 94.903 %13:51 repeat s side Duncan drive as it becomes a single parallel-sided road. Was 95.186 when 1297 was 92.330, +2.854
+
+1297 8682 92.037
+
+2474 8200 93.285 %down Duncan Dr
+3011 8423 89.945 %Eside along bend
+3437 7852 98.010 %s side 473 gravel
+3491 7602 100.090 %e side at corner of forest 
+3454 7630 99.779 %peaceful dr mailboxes
+3261 7579 103.208 %coming out of bend in peaceful dr
+3625 7473 100.625 %btw 233&189 in ditch 
+3666.5 7314 101.590 %14:45 harvest repeat. Was 101.940 when 1297 was 92.350. +9.590
+
+1297 8682 92.000
+
+4173 6787 109.820 %old hwy 21 sw intx
+3884 6625 108.500 %nearing bend 
+3732 6600 108.362 %out of woods 
+3447 6525 106.899  %straight stretch 100m E house. S side 
+%%%any of the last few could be 106 or 108
+3306 6564 105.890 %across from gravel, 5mS road
+3117 6707 104.125 %mailbox 304. Trees
+2972 6870 103.108 % field e trees
+2818 7073 101.271 %repeat at Hwy21 
+2234.5 7291 93.748 %%%qmart 93.748
+1297 8682 91.925 %% recorded as 91.905, but n-2, n-1, and n+1 are all anomalously high
+
+1377 8812 93.686 %nearing bend. Across from S most fence post
+1429 8906 93.882 % 
+1471 8854 95.830 %hedge row 
+1564 8954 96.555  %back corner of corn. 10-15m from trees
+1604 8927 98.689 %nightmarish leveling straight downhill from utility at edge of RoW
+1643 8961 100.566 %5mNW next utility 
+1670 8956 102.610 %seems farther. WNW driveway at NNW corner of small clearing on this side of driveway. 
+1604 8866 101.742 %thalweg, tiny creek
+1632 8809 97.476 %”nose” of field bear that resembles a west-facing bear
+1697 8803 96.258  %top of bear’s forehead where tree reaches south into field  
+%1753 8764 96.640 %NE corner 30m N90E lone tree
+1751 8756 96.640 %NE corner 30m N90E lone tree
+1718 8665 95.190 %aligned with north edge of next field east(?), along east side
+1673 8561 92.977 %field widens a few m from here, along e edge 
+1640 8509 91.505 %SW side lone tree wnw of grove
+1655 8472 89.924 %back corner of field, entering woods 
+1780 8480 91.772 %faded track 30 m from SW corner 
+1868 8556 94.149 %nondescript overgrown field  
+1869 8602 94.223 %ditto 25mS trees
+1730 8467 91.345 %35 meters back into woods the way I came, on two track in comparatively level stretch
+1663 8452 89.249 %along level part of two track against fence 
+1616 8458 89.288 %ditto. Track descends west of here 
+1632 8449 88.908 %redundant spot center intx across fence   
+2064 8331.5 91.839 %center in bend 
+2036 8344 92.058% center intx base of hill 
+1957 8357 89.395 %center intx crest 
+1858 8393 90.145 %25m past intx at beginning of straight 
+1792 8411 89.030 %30m e intx at crest of suspicious hill
+1693 8436 88.988 %wside intx
+1593 8452 89.565 %eside clearing at base of suspicious hill
+1524 8466 88.060 %intx near crest
+1498 8490 88.059 %intx at edge of crest
+1449 8532 89.900 %intx off crest. Wow, that is a big increase from n-1
+1400 8574 90.422 %intx
+1351 8617 90.493 %intx
+1326 8637 90.470 %next intx
+1300 8657 91.040 %next intx
+1289 8669 91.655 %corner intx center
+1297 8682 91.868 %19:15 
+1297 8682 91.886 %19:27
+8725 0288 91.621
+1297 8682 91.886 %19:27
+
+%hotel 91.593 19:27; 91.621

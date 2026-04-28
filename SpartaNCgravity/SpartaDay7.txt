@@ -1,0 +1,88 @@
+%Sparta 04/09/24
+
+1297 8682 80.145
+3271 9684 77.510
+3178 9700 79.376 %gate
+2822 9750 91.483 %fence along ridge, maybe not natural ridge 
+2936 9718 87.743
+2977 9706 86.430 %SW intx
+3020 9691 84.540 %SW intx
+3069 9680 82.525 %SW intx
+3132 9682 80.915 %SW intx?
+3184 9706 79.402 %gate near reoccupation 
+3185 9738 79.578 %along fence
+
+3320 9163 77.680 %NW intx in two track
+3263 9085 78.600 %NE canopy first tree at fence off road 
+3027 8770 76.305 %gate
+2953 8764 78.380 %fence bend
+2865 8751 80.872 %fence bend 
+2793 8718 82.210 %fence bend
+2635 8763 85.785 %fence corner
+2639 8796 85.050 %fence corner 
+2670 8804 84.705 %fence corner
+2709 8848 85.050 %gate
+2587 8898 86.110 %open ridge
+2465 8998 86.555 %broad local max
+2424 9064 87.900
+2399 9101 89.005 %fence corner 
+2426 9102 88.605 % fence corner
+2502 8998 87.555 %gentle fence bend
+2582 8955 87.388 %fence bend as it enters trees
+2598 8980 89.100 %thalweg
+2598 8996 89.090 %amphibolite(?) subcrop; crossed fence
+2676 9002 88.954 %amphibolite(?) outcrop in creek 
+2678 9006 88.935 %1.5m SE also on outcrop in thalweg
+2687 9037 87.879 %Wmost subcrop uphill side 
+2729 9066 85.850  %uphill side uphill tree
+2746 9135 83.305 % flats
+2841 9181 81.475
+3021 9240 76.685 %30 meters N330E of tree
+3102 9284 74.600 %broad local max
+3154 9241 76.580 %saddle 
+3259 9196 75.339 %SW corner cemetery fence
+3261 9079 78.330 %Nside driveway at road
+3124 8929 77.575 %Eside road at last trees east of road
+3074 8873 76.733 %center gate 
+3032 8774 76.297 %gate repeat at 10:28; was 76.305 at 08:00
+2405 7599 84.005 %at Peterson  
+2330 7432 82.430 %parking lot
+2117 7467 80.355 %Wend parking 
+2128 7442 80.570 %Eend at utility 
+2234.5 7291 81.941 %qmart 11:05
+2340 6908 86.070 %behind shelter 
+2354 6930 85.790 %in front of shelter
+1297 8682 80.134 %inserted base 
+
+2092 6913 88.243 %end of gravel lot
+9940 6643 78.330 %driveway 2486
+9615 6343 81.755 %at gate on road
+9935 6050 80.000 %two track
+9947 5897 77.740 %rock and cahn rd
+9573 5346 78.845  %end of rd at driveway
+
+9265 6743 79.630 %center asphalt Sside
+9212 7165 81.225 %center driveway
+9139 7458 78.069  %church lot
+9522 7650 74.370 %grass uphill bend 
+9831 7693 80.425
+9961 7758 81.785
+0155 7702 82.669
+9758 7837 81.245
+9555 7892 77.210
+8900 8366 68.962
+8970 8346 68.825
+8553 8297 63.760 %end of road
+8767 8230 65.095
+9171 8256 71.725
+9237 8143	74.115
+9290 7787 73.913
+1297 8682 79.884 %%% measured 79.884
+
+0569 9821 84.099
+1117 9954 83.581
+
+1297 8682 80.130 %inserted base 
+
+
+

@@ -1,0 +1,160 @@
+%Sparta 28 September 
+
+%hotel 91.996
+1297 8682 92.261 % 08:24 slept in until 07:30
+9656 9602 96.678  %east end of concrete peninsula btw Hardee’s and medi home health and hospice
+9519 9726 95.200 %NE corner of parking lot at Memorial Park Drive. Nail salon. Location might have been flubbed. 
+9707 9724 97.495 %in line with south wall of copper roof building, 2mE MP Dr.
+9780 9761 97.455 %NW corner Lee & MP Dr. on pavement
+9982 9682 96.100 %sw corner of sw corner of grassy area catty corner from building 
+0390 9677 95.462 %NW from MP Dr & Little River at SE corner of gravel lot
+0408 9647 95.382 %Little River Drive across from south side of first driveway
+0412 9555 94.153 %across from mailbox 73 north side driveway crest of hill 
+0976 8963 95.694 %end of little River drive in road between driveways 
+
+%10
+0917 9055 95.960 %south end of driveways 640
+0867 9132 95.300 %south end driveway 0584 across from center 585 
+0826 9231 95.422 %
+0679 9408 94.515 %NW part of bend at north side. NW corner if intx 
+0654 9182 100.340 %west side of sewer plant gate
+0692 9224 98.809 %north corner of gravel at east side of road
+0706 9170 98.820 %center of upper gate 
+0704 9198 98.722 %level crest of upper gravel 
+0621 9329 95.328 %just south of stop sign
+0572 9304 94.930 %apex of bend south side
+
+%20
+1143 9588 100.050 %NE part of willow ln cul de sac
+1319 9791 94.505 %SE willow & MP Dr.
+2382 8720 102.491 %end of MP Dr ~ halfway between hotel 91.880 and 91.996 --> 91.938 hotel + 10.553
+2411 8645 104.155 % terrace along creek picnic table
+2449 8678 104.233 %terrace 
+2440 8746 105.090 %terrace
+2362 8824 106.044 %terrace 
+2259 8671 104.388 %terrace, back south 
+2175 8747 101.735 %gravel, level, near cabansion 
+2010 8854 103.263 %across from 175 driveway at base of hill
+
+%30 data
+1916 9027 101.920 %level area below Alleghany Manor sign 
+1811 9201 98.220 %apex of bend SW side at ne end of mown strip
+1891 9356 96.199 %SW corner near mailbox. Just off pavement. 
+2370 9320 103.188 %center of gravel cul de sac
+2356 9325 102.955 %redundant across from east side of driveway just uphill. On north edge of road
+0230 9302 99.713  %corner riverview & alley 
+0343 9306 97.039 % level part of residential street
+0176 9383 98.622 %northern part of paved circle
+0145 9372 99.145 %Nmost rock SE intx
+0120 9340 100.031 %NW corner of small paved isthmus 
+
+%%%40 data
+0152 9211 100.190 %X at Nmost tip of Crave parking lot. Setting up as PsB3 for use in fault-crossing profile west of surface rupture tip
+
+%%%%% base
+1297 8682 92.145 %12:00 hotel base 91.880
+
+1297 8682 92.130 %12:55 hotel base 91.865
+%%%%base
+
+0152 9211 100.166 %recorded as 100.136. 13:05 X at Nmost tip of Crave parking lot. Unnerving difference from n-3
+9867 9132 96.940 %SW end of guard rail on south side of road. 
+9408 9227 98.499 %NE intx stop sign 
+9347 9012 96.905 %amys way NW intx 
+0138 9109 101.230 %SE intx in red dirt
+0194 9108 101.393 %e edge of driveway on n side of road. Abandoned house on Bledsoe Creek 
+9883 8421 91.951 %middle of two track at fence line; recorded as 91.751
+
+%%%50
+9955 8449 92.699 %middle of two track at last tree on west side. About 100 meters from n-1
+9915 8434 92.165 %50 paces back toward n-2
+0183 8601 91.065 %along bend at utility 
+0245 8608 92.204 %SW intx 
+0353 8590 94.415 %453 north end drive
+0384 8593 94.975 %Mill Falls entrance. 3m from north facade toward road
+0364 8718 98.129 %road at driveway to 273 & 350
+0367 8832 99.233 %bit of exposed sandy gneissic subcrop 
+0359 8996 101.183 %dusty pullout across from east side of restaurant property. 
+0347 8933 100.653 %backtrack to past red barn at north end of track up to another red barn
+
+%%%60 data
+0277 9105 100.572 %crest just west of power lines, north side of dirt road
+0337 9074 101.002 %bactrack. Across from west end of Hwy21 bridge 
+0138 9109 101.216% 14:30 red dirt repeat. Was 101.230 at 13:30
+
+%%%%% base has drifted down at least -0.014 since 13:30, probably more since 12:55. Will drift up net +0.007 12:55-16:50 
+1297 8682 92.106 %doubled -0.014 interval drift
+%%%%%
+
+0390 9050 101.695 %west end of restaurant lot under trees. Lots of readings 
+0397 8995 101.326 %dumpster. In line with east building edge at south edge of driveway 
+0400 9066 101.705 %almost under bridge 
+0429 9028 100.809 %teaberry sign north side Hwy21
+0501 9059 100.260 %teaberry ln at gate was y=9069
+0483 9043 99.545 %35 paces back south on teaberry to level crest 
+0455 9034 99.729 %35 paces. Partway down hill. It will be 33 steps back to corner. 
+
+%%%70 data
+0441 8995 100.430 % west end of Rollins auto sales. At south end of railroad ties. 
+0497 8802 98.063 %green way dr. VFW SW lawn
+0538 8821 97.022 %SW corner gravel lot north of VFW
+0589 8848 95.941 
+0611 8846 95.944
+0640 8840 96.025 %building corner
+0664 8854 95.905 %building corner 
+0665 8890 95.910 %dumpster and bball hoop
+
+%%%transect all y coords are fixed to 8898 because it was varying randomly
+0647 8903 96.018 %aligned with eastern building north side. Midway btw two buildings. Headed for Re-paved scarp!
+0641 8901 96.005  %5 paces SW in line with north side of large door on large building 
+0636 8899 96.005 %5 paces. One pace past south edge of large door
+
+%%80 data
+0632 8898 95.992 %5 paces. Atop scarp.
+0627 8894 95.962 %5 paces. And two meters southward toward large building to get in the shade. Thermal strain of sunny asphalt is tilting meter.
+0633 8896 95.981 %backtracked 5 paces in the shade. Two meters S of where scarp crosses midline btw buildings
+0637 8898 96.016 %back another 5m in shade. Just northeast of scarp. One pace past SW edge of large door.
+0620 8892 96.004 %in line with end of smaller building. 6 paces from where we left off. Should be 26 paces from E end of large building to W end of small
+0610 8897 96.054 %just S utility
+0607 8895 96.066 %sw corner of unpaved area surrounding utility 
+0486 8933 97.367 %s building corner toward w corner of industrial park
+
+%%%%base
+1297 8682 92.147 %16:50
+%%%%%%
+
+%%walk east from end of River’s Edge Dr
+1394 9222 97.465 %along road grade
+
+%%90 data
+1417 9225 97.577 %end of grade
+1540 9244 103.367 %bushwhack downhill to a two track! Fall and bump meter on the final steps down to track. Mushrooms everywhere. 17:19 
+1575 9256 104.216 %out to River. There is also a trail along this part of the river and on the other bank. 
+1614 9196 104.004 %still along bank, on terrace. About to head back to two track because there is a no trespassing sign ahead. 
+1649 9059 104.035 %end of two track at camp-type property. This reading is west of a small brown shed at the north end of the property and 30mN of driveway 
+1561 9210 103.460 %heading back north on two track. In the meadow between here and the creek is a lone tree.
+1527 9295 104.233 %back creekside. track descends from River Glen Dr across from here. Creekside path may merge with two track ahead north 
+1268 9245 97.355  %18:00 back at east end of River’s Edge Dr
+1297 8682 92.242 %18:24
+
+%%%%%
+1297 8682 92.251 %18:29
+%%%%%
+
+1717 8342 85.425 %18:35 center intx. Check me later. Maybe didn’t drift all the way up yet. 
+1734 8335 85.385 %next intx center. Good data. 
+1751 8326 85.181 %next intx SE 
+1619 8362 86.825 
+1638 8358 86.535 %near side intx 20 meters back 
+1580 8371 87.290 %center intx in flattish
+1528 8390 88.165  %center intx 
+1439 8463 89.084 %center arrow-shaped intx
+
+1413 8485 89.518 %center arrow-shaped intx
+
+1385  8508 90.220 %center arrow-shaped intx
+
+1358 8531 90.944 %center arrow-shaped intx
+
+%%%%%
+1297 8682 92.280 %hotel 92.015 19:50

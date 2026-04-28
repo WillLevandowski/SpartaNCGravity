@@ -1,0 +1,63 @@
+%%%base basement 4808.587 09:08
+%4591.944 12:55 
+%8724 0305 92.039 %13:27 SE corner of parking lot at NW corner of shrub
+%8723 0305 92.076 %13:54
+%%%% switch survey Lon to 81W
+
+%8723 0305 92.079 %14:00
+1297 8682 92.328 %center of gravel driveway 
+
+1378 8825 94.199 %14:09 NE of 90deg bend in rivers edge drive from N to E. 3 m from bend. 135 m north of surface rupture. Started at 94.171 3 minutes earlier. 
+1369 8789 93.932  %across from n edge of driveway 
+1354 8748 93.505 %fence corner south of driveway 
+1332 8719 92.366  %across from utility pole, halfway across verge. Still E side road
+1297 8682 92.374 %center of gravel driveway 
+1378 8825 94.245 %PsB at bend 14:45
+1388 8868 93.914 %adjacent to large pine on hilltop
+1384 8897 94.146 %incipient(?) two-track
+1378 8825 94.250 %PsB 14:53
+1227 8649 91.939 %S edge driveway at road 
+%1297 8682 92.441 %middle of driveway reoccupation 15:07. 1m<Surface trace<100m north
+1292 8699 92.531 %3mW of willow trunk
+1296 8720 92.466 %S corner of shrub. Bouncy data. 
+1304 8712 92.451 %same latitude. Longitude of willow tree. East of utilities. Better ground. 
+1291 8686 92.473 %just off w side road across from center of driveway 
+1298 8691 92.462 %10 steps n along w edge. Almost in line with tree(s) on either side of road 
+1300 8693 92.458 %in line with trees. 3 steps. Scarp is here. 
+1303 8695.5 92.480 %south corner of stones. 4steps. 
+1305.5 8697.5 92.492 %4steps. South end of grass triangle.
+
+%%%%20 data 
+1309 8702 92.463 %6steps n end of grass triangle 
+1316 8709 92.431 %where gravel swale returns to road-parallel. 8stepsN
+1318.5 8712.5 92.405 %5 steps to Nmost gravel wide enough for meter 
+
+%%%%%weirdness
+ %1297 8682 92.499 %middle of driveway reoccupation 15:56
+1297 8682 92.416 %middle of driveway reoccupation 16:04
+%%%% weirdness 
+
+1304 8687 92.341 %in line with two trees, on E side. First fence post parallel to road
+1307 8690 92.335 %scarp 25cm north. Second fence post.
+1309 8692 92.331 %third post. 10 feet?
+1311 8694 92.318 %fourth
+1313 8696 92.335 %fifth. Across from middle of grassy triangle. 
+
+%%%30
+1315 8698 92.324 %sixth. Across from north end of grassy triangle. 
+1317 8700 92.332 %seventh. Mid-swale on the opposite side of the road
+1319 8702 92.315 %eighth. Swale is not done yet. 16:35
+1321 8704 92.319 %across from end of swale. Ninth
+1323 8707 92.306%tenth
+
+1299 8693 92.406 %scarp on west side. Repeat in line with trees. Was 92.458 when center driveway was <92.441…now <92.389?
+1297 8682 92.388 %middle of driveway reoccupation 16:50
+1277 8670 92.450 %across from S end clearing. 
+1227 8649 91.930 %repeat at S corner driveway 91.993 when center driveway was 92.441…-0.053 —> 91.940
+
+1378 8825 94.245 %PsB 17:11 Up 0.046 since 14:09
+
+1297 8682 92.369 %middle of driveway reoccupation 16:50
+
+%8723 0305 92.119 %17:34. Up 0.040 mGal from 14:00. 
+%8725 0288 92.094

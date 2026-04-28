@@ -1,0 +1,135 @@
+%Sparta 3 October 2023
+
+%%%hotel 91.621 = 1297 91.882 +0.261
+%%% hotel 91.444 06:45
+1297 8682 91.709
+8755 337 91.657 %NE corner of hotel lot
+8285 0586 94.600 %SW corner lot
+8363 0537 94.246 %SE corner
+8802 9770 97.120 %center of lot
+8773 9459 97.095 %SE part of lot
+7894 9080 91.945 %center gravel lot recorded as 90.945
+7242 8780 81.420 %ditto
+7266 8078 87.483 %pulloff n side 
+7596 7633 87.199 %s side
+8245 7574 90.140 %bend. Pretty
+8941 7766 87.948
+9076 7902 83.198 %corner recorded as 83.198
+8964 8292 80.467 %8m from road
+9336 8398 85.677 %wren way 
+9263 8729 88.502 %paved lot recorded as 85.502
+9162 9473 98.866 %fence
+8548 9930 96.370 %kemp
+
+%%% hotel 91.533
+1297 8682 91.798
+
+9327 0214 92.810 %crouse lot NE
+0926 0563 102.380 %gate along farmer rd
+
+%%%next three points in a beautiful level area next to river 
+1520 0425 108.885 %riverside 
+1602 0418 108.860 %along fence past structure uphill of benches 
+1582 0398 109.205 %streamside just downstream from structure 
+0717 0638 104.166 %near stop sign 
+2321 1401 111.896 %choate dairy & river hill
+1710 1444 104.155 %just w fence line
+1320 1587 99.785 %center driveway 
+1090 1181 96.126 %gravel 20m from rd
+0934 0930 98.810 %center dogwood 
+0569 0394 101.575 %jbk south
+0016 0009 95.920 %35m down halsey
+
+%% hotel 91.590
+1297 8682 91.855
+
+
+0621 8985 96.084 %bldg edge
+0638 8928 95.855 %very tilty bldg corner
+0630 8956 95.990 % mid building
+0624 8972 96.070 %3/4 west
+0559 9031 97.435 %halfway across back, north
+0485 9013 97.377 %gravel corner 481 9018
+4391 6644 110.642 % gravel center
+4945 7055 110.190 %mailbox 337 across from steeply foliated schist
+5219 7564 111.649 %shoulder narrows 
+5147 8755 100.994 %yield sign
+4852 9840 104.695
+
+1297 8682 91.886 %%% estimated drift continuation
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%%%Sparta 6 October
+
+1297 8682 91.520 %10:14
+1352 8832 93.162 %halfway across house. South side 
+1301 8857 93.142 %e edge driveway n side 
+1246 8865 93.855 %w edge clearing s side
+1195 8927 96.199 %w of 674, halfway to 693, n side 
+1172 8958 96.845 %nw edge 693 driveway repeat +5.290, this +5.305
+1322 8849 93.225  %across from shed, n side 
+1405 8642 92.034 %veg corner near shed
+1421 8614 91.400 %concave corner
+
+1297 8682 91.565 
+1169 8584 91.773  %across from utility 
+0559 9029 97.064 %reocc
+0656 9088 101.310 %near dead tree. Wide area along two track
+0587 9104 101.885 %calm part of creek along bend, just upstream of across from sewer plant. On right bank 
+0590 9096 101.210 %redundant just up at two track
+
+
+0759 7735 85.075 %south of brick bldg
+0564 7925 85.993 %solar panel
+0542 7913 86.166 %10m from corner 
+0543 7827 84.651 %25mSE power lines 
+0547 7776 84.772 %25m from corner above steeper part of descent 
+0641 7767 85.587 %along edge at level patch where trees overhang field 
+0725 7773 85.532 %gate. recorded as 85.352; 85.532 would match with adjacent point at brick bldg; would match other residuals in this field if 85.750
+0827 7664 84.556 %two track
+2234.5 7291 93.417  %qmart 12:50
+2780 7124 100.460
+
+2659 7255 98.848 %along bend
+2571 7364 97.882 %n end of mown area
+2837 7669 95.490  %flat before driveway 
+2930 7544 96.410
+3050 7342 101.099
+1936 7724 86.999
+1994 7719 87.125 %cornerish
+
+2034 7764 85.403 %two track steepens here and briefly enters trees 
+
+1339 8201 90.873 %back of lot just before hill 
+1458 8255 89.399 %bend
+1514 8278 88.782 %lower bend
+1554 8302 87.860 %past bend along straight going uphill 
+1526 8331 87.627 %backtrack, take left fork, reading at next junction triangle 
+1526 8368 87.533 %center half intx 
+1528 8390 87.545 %center intx repeat
+1297 8682 91.650
+1055 9471 103.931 %10m from river
+1055 9471 103.953 %repeat
+1022 9460 103.673 %against two track across from pagoda 
+1022 9460 103.688 %repeat 
+1001 9208 102.703 %terrace along creek
+3452 9495 90.994
+3406 0097 96.069 %against fence 
+1297 8682 91.680

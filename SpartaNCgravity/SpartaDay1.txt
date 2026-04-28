@@ -1,0 +1,156 @@
+%%%Sparta 27 Sept 2023
+%%%%late start after half-max depth estimates for Mesa V, Mesa I 05:30-07:45
+%8726 0291 92.044
+%8724 0294 92.042 %08:05 
+%8724 0296 92.037 %08:09
+1297 8682  92.271 %center driveway on River’s Edge Dr 08:26
+1292 8678 92.295 %S end of driveway at road
+1287 8676 92.316 %south of driveway in line with fence corner
+1277 8672 92.338 %in line with tree across road at south end of clearing. 4th fence post from corner. Different spacing than north of driveway. 
+1267 8668 92.284 %eighth post
+1257 8663 92.245 %12th post
+1247 8658 92.108 %16th post. Trees across the road ended halfway btw n-1 and here. 
+1237 8653 91.976 %20th and last. Not evenly spaced. 
+
+%%%%10 data
+1232 8650 91.843 %N end of driveway
+1227 8649 91.774 %S end
+1218 8645 91.590 %across from utility 
+1165 8618 91.695 %in line with utilities on SW side of road
+1266 8615 91.099 %local max at intx 
+
+1297 8682  92.204 %center driveway on River’s Edge Dr 09:20
+
+%%% processing: it is 53.4 m from 1339,8639 to 1304,8679 post2–18 -->16 intervals -25/16,+40/16=-1.6,+2.5
+1339 8639 90.840 %west edge of canopy at north fence. Post 2.25
+1336 8642 90.929 %post4
+1332 8646 91.028 %post6
+1329 8650 91.079 %post8
+
+%%%20 data
+1326 8654 91.164 %post10
+1323 8658 91.276 %post12 in line with east edge of trees 8mS
+1320 8662 91.212 %S fence at E edge of trees
+1317 8665 91.334 %post14. Stepped into N side of fence line. 
+1314 8669 91.395 %S side of lone tree
+1311 8672 91.551 %6mN45E tree. Scarp?
+1308 8676 91.525 %post16
+1304 8678.5 91.822  %OUTSIDE of corner post18
+1306 8680 91.875 %going north. Post1 along diagonal 
+1308 8682.5 91.886 %post2. Inside fence.
+
+%%%30 data
+1310 8684.5 91.885 %post3 inside 
+1312.5 8687 91.891 %post4 inside
+1315 8689 91.890 %post5. Scarp?
+1317 8691 91.878 %post6
+1319.5 8693 91.877 %post7
+1319.5 8693 91.865 %repeat. Post 7. Hard to level.
+1321.5 8696 91.915 %post8
+1323 8698 91.912 %post9
+1325 8700.5 91.941 %post10
+1323 8698 91.913 %post9 recheck
+
+%%40 data
+1327 8703 91.933 %post 11
+1325 8700.5 91.917 %repeat recheck post10
+1329 8705.5 91.970 %post12
+1330.3 8708.3 92.002  %post13 inside
+1330 8709 92.011 %post13 outside
+1332 8711 92.049  %post14 outside
+1333 8714 92.077 %post15 outside
+1335 8716.5 92.133 %post16 outside. Across from utility pole
+
+1297 8682  92.117 %center driveway on River’s Edge Dr 11:28. From 92.204 at 09:20
+
+1019 9391 103.670 %lot in clearing at fishing camp 11:40
+
+%%%%50 data
+1146 9292 99.055 %across from S end of driveway 
+1268 9245 97.230 %east edge of cul de sac 
+1139 9097 99.499 %center of pull off on west side at bend. Just put it on the road. 
+1172 8957 97.390 %similar. At NW edge of driveway to 693 River’s Edge Dr
+1297 8682  92.102 %11:55 center driveway PsB2 1298 8676 92.204 %center driveway on River’s Edge Dr 09:20
+1214 8486 93.530 %across from fence corner 
+1213 8438 93.343 %north end driveway at road
+1039 8340 94.105 %gravel patch at bend. At roadside 
+%2234.5 7291 93.906 %turn into Qmart 12:41. s end of lot on gravel south of dumpster
+2234.5 7291 93.930 %12:47
+
+1297 8682  92.130 %11:55 center driveway PsB2 1298 8676 92.204 %center driveway on River’s Edge Dr 09:20
+
+%%%60 data. Beginning coarse loop over eastern half of hanging wall
+
+
+2338 7030 96.730 %SE corner of hachured NW corner of Grace church lot  
+2566 6562 98.170 %across from center of driveway to copper roof house
+2310 6663 100.355 %gravel drive sw side
+2139 6666 100.699 %across driveway from mailbox at Andrew’s tree farm
+1888 6655 98.320 %across road from large lone tree
+1727 6636 97.663 %13:20 center of gravel driveway to abandoned house. Last point was sketchy, so an easy nearby spot
+1567 6579 99.870 %center of driveway address 319
+1189 6363 97.860 %SE intx 
+1169 6508 97.622 %white line at mailbox 549
+1130 6585 96.577
+
+%%%70 data
+1079 6750 94.245 %north edge of road at tree btw mailboxes for 382 and next to the west
+1003 7020 90.295 %gravel west of driveway 
+0981 6933 91.575 %backtracked. just downhill of across from fence. Across from downhill end of vegetation across road
+1006 7150 88.492 %across from gate center. Small tree north of gate. Not yet to apex of bend. 
+0957 7289 85.751 %stop sign at SE intx
+0950 7222 86.811 %w side road where fence would intersect. Just downhill from gate across road. 
+1174 7471 85.885 %at E end of guard rail on N side of entry drive 
+%0979 7672 84.731 %rounded NW corner. At One Way sign. A crack in the pavement points right here
+0765 7613 83.942 %btw north legs of water tower
+0853 7557 85.077 %round corner below black locust tree partway up hillside
+
+%%%80
+0990 7339 85.173 %apex of bend, 3m clockwise from sewer drain
+1036 7359 85.051 %south end of parking lot, east side. At the base of the parking spaces (adjacent to traffic lane rather than grassy berm)
+1091 7404 85.065 %across from entrance, base of parking spaces 
+1131 7440 85.465 %N end
+1206 7459 85.770 %north end of gravel at substation between pole and road
+1281 7551 86.380 %north side of driveway at fence corner
+1339 7648 88.065 %just east of eastern edge of cattle ladder. On sand/gravel 15:20
+1481 7595 89.202 % 15:30 N edge pullout. Tough readings with traffic 
+1523 7634 87.922 % W first tree
+1586 7868 83.874 %adjacent to utility, in two-track. House just beyond fence. Nearing veg corner
+
+%%%90 data
+1586 7868 83.880 %repeat
+1902 7920 76.355 %heading ene out of open level area. In two track adjacent to tree, in li e with another tree south of the two track
+2004 7933 73.660 %adjacent east wall shed. Btw trees straddling road. Southern one dead
+1504 7754 84.975 %bend in two track. Just east of aligned with east edge of RoW.
+1339 7648 88.100 %16:10 repeat at cattle structure. Was 88.065 at 15:20.
+2234.5 7291 94.122 %16:15 repeat at Qmart base. Was 93.930 at 12:47
+1297 8682  92.322 %11:55 center driveway PsB2 1298 8676 92.204 %center driveway on River’s Edge Dr 09:20
+
+2459 7566 96.280 % 40mS of Chestnut Grove Rd on Narrow Rd, east side in grass
+2635 7648 93.445 %at bend just east of driveway. A crack in pavement points right here 
+2702 7797 92.191 %8m past mailbox, 15m past last driveway, before curve. Just into tree line
+2680 7949 92.505 % poor choice. Halfway along wooded, level section. 10ft ese of road
+
+%%100 data
+2677 8203 95.186 %Duncan Drive! South side where it goes from broad intx to gravel road with parallel sides
+2609 8200 95.025 %Duncan Drive in line with fence south of here. Could do a transect in open field here. 
+2621 8105 92.458 %2.5mN70E from fence corner
+2698 8218 94.916 %gravel adjacent to utility 
+2846 8328 92.722 %across from s end driveway. Mailbox 811
+3222 8464 89.341 %center of driveway address 902
+3352 8176 94.942 %S of driveway in grass
+3342 8206 94.165 %grass north of driveway in li e with tip of one way arrow
+3362 8140 95.450 % 2mS of N end of brown pavement. 1m from road
+3368 8110 95.622 %first grass as brown pavement ends
+3373 8081 95.875  %grass at s edge of black pavement in line with wall of building
+3379 8056 96.140 %s edge gravel 
+3389 8013 96.620 %near s end gravel
+3405 7973 96.840 %N edge of next (571) driveway
+3426 7916 97.337 %southern end of crescent driveway
+3666.5 7314 101.940 %I pumpkined. Headed downhill to Harvest & Andrew’s Ridge. SW intx in grass
+3691.5 7165 103.845 %base of two concrete steps NE intx
+
+2234.5 7291 94.154 % 18:10. 94.122 at 16:15 repeat at Qmart base. Was 93.930 at 12:47
+1297 8682 92.354 %18:26 PsB2 1298 8876 92.102 %11:55 center driveway PsB2 1298 8676 1294 8683 92.204 %center driveway on River’s Edge Dr 09:20
+
+%8724 0296 92.047 % at hotel 18:37; 92.060 18:52 PsB2=Hotel+0.300; Qmart=PsB2+1.800
